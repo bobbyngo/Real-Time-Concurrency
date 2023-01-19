@@ -1,1 +1,1 @@
-# SYSC-3303-Labs
+# SYSC-3303-Assignments
