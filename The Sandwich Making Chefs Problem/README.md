@@ -11,5 +11,5 @@ Open the project in eclipse and run the main method in Kitchen.java. Java versio
 * Agent.java
 * Sandwich.java
 * Kitchen.java
-* DesignDiagram.pdf
+* DesignDiagrams.pdf
 
