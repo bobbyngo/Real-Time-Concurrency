@@ -1,4 +1,4 @@
-# Assignment 1
+# Assignment 1: The Sandwich Making Chefs Problem
 
 ## Overview:
 Chef.java and Agent.java are the 2 threads whereas, Chef is the Consumer and Agent is the Producer. They share the same Sandwich resource
