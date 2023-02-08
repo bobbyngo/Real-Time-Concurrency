@@ -16,6 +16,9 @@ public class Server {
 	private static final String WRITE_REGEX = "^02+([a-zA-Z_\\-]+)\\.([a-zA-Z_\\-]+)0([a-zA-Z_\\-\\.]+)0$";
 
 	
+	/**
+	 * Constructor, init sendSocket and receiveSocket. Bind port 69 to receiveSocket of Server class
+	 */
 	public Server() {
 		// Act as a server for Intermediate class
 		try {
@@ -95,7 +98,7 @@ public class Server {
 	/**
 	 * Parsing the request and return the response
 	 * @param stringData
-	 * @return
+	 * @return response exactly in 4 bytes
 	 * @throws Exception
 	 */
 	private byte[] parsePacket(String stringData) throws Exception {

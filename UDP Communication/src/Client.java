@@ -24,6 +24,10 @@ public class Client {
 		}
 	}
 
+	/**
+	 * Iterate from 0 to 10, if it's a number 10 then sends a error request. Even number then sends a read request, odd then sends a write request
+	 * This method will send a datagram packet to IntermediateHost through port 23 then wait for the response in port 3000
+	 */
 	public void sendAndReceive() {
 		byte[] msg;
 		String request;

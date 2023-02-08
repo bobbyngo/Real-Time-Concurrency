@@ -25,6 +25,9 @@ public class IntermediateHost {
 		}
 	}
 
+	/**
+	 * Calling the receiveClientSocket then receiveSendServerSocket to do the logic
+	 */
 	public void receiveAndEcho() {
 		for (int i = 0; i < 11; i++) {
 			sendClientRequest(i);
