@@ -23,13 +23,13 @@ Everything else will make Server throw exception as invalid request and terminat
 Java version 17 or above is required. Open 3 terminals in the src directory. First terminal runs ```java Server.java```, second terminal runs ```IntermediateHost.java``` then last terminal run ```Client.java```
 
 Example output:
-Server.java
+<strong>Server.java</strong></br>
 ![image](https://user-images.githubusercontent.com/76576373/217307496-1700cd0c-e143-4930-948c-f6a6ab66ffac.png)
 
-IntermediateHost.java
+<strong>IntermediateHost.java</strong></br>
 ![image](https://user-images.githubusercontent.com/76576373/217307974-e956bba2-0961-4936-981f-636602d82236.png)
 
-Client.java
+<strong>Client.java</strong></br>
 ![image](https://user-images.githubusercontent.com/76576373/217308091-6eb76a86-31a1-4dbc-a208-f2af14fccec4.png)
 
 
