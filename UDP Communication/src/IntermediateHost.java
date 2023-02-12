@@ -3,13 +3,14 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+/** Act as a server for Client class
+* Receive datagram of Client in port 23 -> send it to Server
+* Receive datagram of Server in port 23 -> send it to Client through port 3000
+*/
 public class IntermediateHost {
 	private DatagramPacket sendClientPacket, receiveClientPacket, sendServerPacket, receiveServerPacket;
 	private DatagramSocket sendClientSocket, receiveClientSocket, receiveSendServerSocket;
 
-	// Act as a server for Client class
-	// Receive datagram of Client -> send it to Server
-	// Receive datagram of Server -> send it to Client
 	public IntermediateHost() {
 		try {
 			sendClientSocket = new DatagramSocket();

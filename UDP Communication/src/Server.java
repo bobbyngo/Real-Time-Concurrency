@@ -5,6 +5,10 @@ import java.net.SocketException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Receive a datagram packet in host 3000, and response back through port 69
+ *
+ */
 public class Server {
 	private DatagramPacket sendPacket, receivePacket;
 	private DatagramSocket sendSocket, receiveSocket;

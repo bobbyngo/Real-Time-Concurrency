@@ -4,7 +4,14 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
+/**
+ * Create a request and send the packet to the IntermediateHost through port 23
+ * Wait for the response in port 3000
+ *
+ */
 public class Client {
 
 	private DatagramPacket sendPacket, receivePacket;
@@ -110,7 +117,29 @@ public class Client {
 	}
 
 	public static void main(String args[]) {
-		Client c = new Client();
-		c.sendAndReceive();
+		byte[] byteArray0 = {'P', 'A', 'N', 'K', 'A', 'J'};
+		byte[] byteArray1 = {80, 65, 78, 75, 65, 74};
+		byte[] byteArray2 = {0, 1, 2, 3};
+		byte[] byteArray3 = {'0', '1', '2', '3'};
+
+		String str = new String(byteArray0, StandardCharsets.UTF_8);
+		String str1 = new String(byteArray1, StandardCharsets.UTF_8);
+		String str2 = Arrays.toString(byteArray0);
+		String str3 = Arrays.toString(byteArray1);
+		String str4 = new String(byteArray2, StandardCharsets.UTF_8);
+		String str5 = Arrays.toString(byteArray2);
+		String str6 = new String(byteArray3, StandardCharsets.UTF_8);
+		String str7 = Arrays.toString(byteArray3);
+
+		System.out.println(str);
+		System.out.println(str1);
+		System.out.println(str2);
+		System.out.println(str3);
+		System.out.println(str4);
+		System.out.println(str5);
+		System.out.println(str6);
+		System.out.println(str7);
+		//Client c = new Client();
+		//c.sendAndReceive();
 	}
 }
