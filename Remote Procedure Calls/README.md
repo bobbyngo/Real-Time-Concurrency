@@ -5,20 +5,8 @@
 task?</br>
 Because IntermediateHost receives messages from both Client and Server so it needs 2 different listening port which is 2 threads</br>
 2. Is it necessary to use synchronized in the intermediate task? Explain</br>
-It doesn't need to use synchronized because we can implement first in first out shared resource with a condition. For example, there is a data of the Client in the queue and the Client try to tell the Host to get it but failed, because the condition for the Client to get the correct resource is the queue is not empty and the length of the item in it must be 4. For Server is the same thing but the length of the item must be greater than 4.
+It doesn't need to use synchronized because we can implement first in first out and 2 shared resources which are server queue and client queue. When the Client sends the data to Host, the data will be added to the client queue, and Host will look whether server queue is empty so it can return the response back to Client when Client is sending a request response. If the server queue is empty, the Client will be waiting. For Server, the Server sends the request data to Host, Host will look whether client queue is empty so it can send the Client data to Server. Server receive data and send the response to Host which will add the response to server queue. Server will then request for the next data. If the client queue is empty, the Server will be waiting
 
-## Overview:
-```Client.java``` will send the following requests ```01test.txt0octet0``` for reading request to IntermediateHost in port 23. Client will receive the response from the IntermediateHost in port 3000 to confirm it is received. Client then will send a request to IntermediateHost for the reponse from its data. After that the ```02test.txt0octet0``` writing request in bytes format will be sent to the IntermediateHost.java in port 23. The same workflow will happen
-</br>
-```IntermediateHost.java``` will have 2 threads
-</br>
-Thread 1 is listening to port 23: 
-</br>
-Receive datagram of Client in port 23 -> send message to Client through port 3000 to tell Host has received the message. Add the  data to the share queue and clear the queue. After that, if the Client sends something it tells Client to wait until its turn Thread 2 is listening to port 24: 
-</br>
-Receive request from Server in port 24 -> send the data to Server through port 69 if it's available in the queue, else tell the Server to wait. After receiving response of the data from server, add the response to the queue and clear it. If the Server sends something, tell the Server to wait 
-</br>
-```Server.java``` send the request packet to port 24 and receive the data in port 69. If the data is not received, Server will keep sending the request packet. Else it will parse the data and send the result to port 24 
 </br>
 Examples:
 ```
