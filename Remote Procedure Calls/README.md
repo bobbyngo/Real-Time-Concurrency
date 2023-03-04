@@ -1,5 +1,12 @@
 # Assignment 3: Remote Procedure Calls
 
+## Answer:
+1. Why did I suggest that you use more than one thread for the implementation of the Intermediate
+task?</br>
+Because IntermediateHost receives messages from both Client and Server so it needs 2 different listening port which is 2 threads</br>
+2. Is it necessary to use synchronized in the intermediate task? Explain</br>
+It doesn't need to use synchronized because we can implement first in first out shared resource with a condition. For example, there is a data of the Client in the queue and the Client try to tell the Host to get it but failed, because the condition for the Client to get the correct resource is the queue is not empty and the length of the item in it must be 4. For Server is the same thing but the length of the item must be greater than 4.
+
 ## Overview:
 ```Client.java``` will send the following requests ```01test.txt0octet0``` for reading request to IntermediateHost in port 23. Client will receive the response from the IntermediateHost in port 3000 to confirm it is received. Client then will send a request to IntermediateHost for the reponse from its data. After that the ```02test.txt0octet0``` writing request in bytes format will be sent to the IntermediateHost.java in port 23. The same workflow will happen
 </br>
