@@ -9,7 +9,7 @@ import java.net.UnknownHostException;
  * The Client will create and send the data to the IntermediateHost through port 23
  * Receive reply that IntermediateHost has received the data in port 3000
  * Create request_respond packet and send to port 23 to receive the response of its data
- * in port 3000. If the response is not received, it will keep asking
+ * in port 3000. If the response is not received, it will be waiting
  */
 public class Client {
 
@@ -60,18 +60,8 @@ public class Client {
 			String received = receive(i, request);
 			
 			request = "REQUEST_RESPONSE";
-			//send(i, request.getBytes(), request);
-			
-			while (received.equals("WAIT_FOR_RESPONSE")) {
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				send(i, request.getBytes(), request);
-				received = receive(i, request);			
-			}
+			send(i, request.getBytes(), request);
+			received = receive(i, request);			
 		}
 		// We're finished, so close the socket.
 		sendSocket.close();

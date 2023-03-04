@@ -25,15 +25,17 @@ public class IntermediateHost implements Runnable{
 	// Server
 	private static final String WAIT_FOR_REQUEST = "WAIT_FOR_REQUEST";
 	private int port;
-	private ArrayList<String> requestList;
+	private ArrayList<String> clientRequest;
+	private ArrayList<String> serverRequest;
 	
-	public IntermediateHost(int port, ArrayList<String> requestList) {
+	public IntermediateHost(int port, ArrayList<String> clientRequest, ArrayList<String> serverRequest) {
 		try {
 			sendSocket = new DatagramSocket();
 			this.port = port;
 			// receive data in the assigned port
 			receiveSocket = new DatagramSocket(port);
-			this.requestList = requestList;
+			this.clientRequest = clientRequest;
+			this.serverRequest = serverRequest;
 		} catch (SocketException se) {
 			se.printStackTrace();
 			System.exit(1);
@@ -47,29 +49,42 @@ public class IntermediateHost implements Runnable{
 	 */
 	private void handleRequest(int port) {
 		while (true) {
-			String received = receive(port);
-			if (!received.equals("REQUEST_DATA") && !received.equals("REQUEST_RESPONSE")) {
-				requestList.add(received);
-			}
 			if (port == 23) {
-				if (received.equals("REQUEST_RESPONSE") && requestList.size() != 0 && requestList.get(0).length() == 4) {
-					sendClientPacket = new DatagramPacket(requestList.get(0).getBytes(), requestList.get(0).length(), receivePacket.getAddress(), 3000);
-					// reset
-					requestList.clear();
-				} else {
-					sendClientPacket = new DatagramPacket(WAIT_FOR_RESPONSE.getBytes(), WAIT_FOR_RESPONSE.length(), receivePacket.getAddress(), 3000);
+				String received = receive(port);
+				clientRequest.add(received);
+				sendClientPacket = new DatagramPacket(WAIT_FOR_RESPONSE.getBytes(), WAIT_FOR_RESPONSE.length(), receivePacket.getAddress(), 3000);
+				send(port, sendClientPacket);
+				received = receive(port);
+				
+				while (serverRequest.size() == 0) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+				sendClientPacket = new DatagramPacket(serverRequest.get(0).getBytes(), serverRequest.get(0).length(), receivePacket.getAddress(), 3000);
+				serverRequest.clear();
 				send(port, sendClientPacket);
 				
 			} else if (port == 24) {
-				if (received.equals("REQUEST_DATA") && requestList.size() != 0 && requestList.get(0).length() > 4) {
-					sendServerPacket = new DatagramPacket(requestList.get(0).getBytes(), requestList.get(0).length(), receivePacket.getAddress(), 69);
-					// reset
-					requestList.clear();
-				} else {
-					sendServerPacket = new DatagramPacket(WAIT_FOR_REQUEST.getBytes(), WAIT_FOR_REQUEST.length(), receivePacket.getAddress(), 69);
+				String received = receive(port);
+				while (clientRequest.size() == 0) {
+					try {
+						Thread.sleep(100);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
-				send(port, sendServerPacket);
+				sendServerPacket = new DatagramPacket(clientRequest.get(0).getBytes(), clientRequest.get(0).length(), receivePacket.getAddress(), 69);
+				clientRequest.clear();
+				send(port, sendServerPacket);	
+				received = receive(port);
+				serverRequest.add(received);
+				sendServerPacket = new DatagramPacket(WAIT_FOR_REQUEST.getBytes(), WAIT_FOR_REQUEST.length(), receivePacket.getAddress(), 69);
+				send(port, sendServerPacket);				
 			}
 		}
 	}
@@ -155,9 +170,10 @@ public class IntermediateHost implements Runnable{
 	}
 
 	public static void main(String args[]) {
-		ArrayList<String> requestList = new ArrayList<>();
-		Thread ih1 = new Thread(new IntermediateHost(23, requestList));
-		Thread ih2 = new Thread(new IntermediateHost(24, requestList));
+		ArrayList<String> clientRequest = new ArrayList<>();
+		ArrayList<String> serverRequest = new ArrayList<>();
+		Thread ih1 = new Thread(new IntermediateHost(23, clientRequest, serverRequest));
+		Thread ih2 = new Thread(new IntermediateHost(24, clientRequest, serverRequest));
 		ih1.start();
 		ih2.start();
 	}

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  * Send the request packet to port 24 and receive the data in port 69
- * If the data is not received, Server will keep sending the request packet. Else it will
+ * If the data is not received, Server will wait for the request packet. Else it will
  * parse the data and send the result to port 24
  */
 public class Server {
@@ -55,16 +55,8 @@ public class Server {
 			send(i, received);
 			received = receive(i);
 			
-			while (received.equals("WAIT_FOR_REQUEST")) {	
-				try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				send(i, "REQUEST_DATA");
-				received = receive(i);
-			}
+			send(i, "REQUEST_DATA");
+			received = receive(i);
 		}
 		// We're finished, so close the sockets.
 		sendSocket.close();
