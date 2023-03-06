@@ -1,4 +1,4 @@
-# Assignments for Real Time Concurrency course
+# Real Time Concurrency
 ```
 SYSC 3303 Java Concurrency And Real-time System
 ```
